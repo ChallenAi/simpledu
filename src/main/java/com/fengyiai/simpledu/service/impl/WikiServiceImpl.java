@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -25,7 +26,7 @@ public class WikiServiceImpl implements WikiService {
             return resu;
         } else {
             // 使用like匹配keyword
-            String wikis = "abc";
+            List<Wiki> wikis = wikiMapper.selectWikisLikeName(keyword);
             resu.put("isFind", false);
             resu.put("data", new HashMap<String, Object>(){{
                 put("wikis", wikis);

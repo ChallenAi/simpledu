@@ -201,5 +201,12 @@
     <include refid="Base_Column_List" />
     from wiki
     where name = #{keyword}
+    limit 1
+  </select>
+  <select id="selectWikisLikeName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wiki
+    where name like concat('%',#{keyword},'%')
   </select>
 </mapper>

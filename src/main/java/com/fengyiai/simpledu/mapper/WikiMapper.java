@@ -2,6 +2,8 @@ package com.fengyiai.simpledu.mapper;
 
 import com.fengyiai.simpledu.model.Wiki;
 
+import java.util.List;
+
 public interface WikiMapper {
     int deleteByPrimaryKey(Long wikiId);
 
@@ -16,4 +18,6 @@ public interface WikiMapper {
     int updateByPrimaryKey(Wiki record);
 
     Wiki selectByWikiName(String keyword);
+
+    List<Wiki> selectWikisLikeName(String keyword);
 }
