@@ -7,6 +7,6 @@ spring:
     throw-exception-if-no-handler-found: true
 mybatis:
   type-aliases-package: com.fengyiai.simpledu.model
-  mapper-locations: classpath:com/fengyiai/simpledu/mapper/*.xml
+  mapper-locations: classpath*:com/fengyiai/simpledu/mapper/impl/*.xml
 server:
   port: 8000
