@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengyiai.simpledu.mapper.AccountMapper">
+  <resultMap id="BaseResultMap" type="com.fengyiai.simpledu.model.Account">
+    <id column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="phone_num" jdbcType="VARCHAR" property="phoneNum" />
+    <result column="gmt_last_login" jdbcType="TIMESTAMP" property="gmtLastLogin" />
+    <result column="wx_id" jdbcType="VARCHAR" property="wxId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, phone_num, gmt_last_login, wx_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from account
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from account
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.fengyiai.simpledu.model.Account">
+    insert into account (user_id, phone_num, gmt_last_login, 
+      wx_id)
+    values (#{userId,jdbcType=BIGINT}, #{phoneNum,jdbcType=VARCHAR}, #{gmtLastLogin,jdbcType=TIMESTAMP}, 
+      #{wxId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fengyiai.simpledu.model.Account">
+    insert into account
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="phoneNum != null">
+        phone_num,
+      </if>
+      <if test="gmtLastLogin != null">
+        gmt_last_login,
+      </if>
+      <if test="wxId != null">
+        wx_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="phoneNum != null">
+        #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtLastLogin != null">
+        #{gmtLastLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="wxId != null">
+        #{wxId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fengyiai.simpledu.model.Account">
+    update account
+    <set>
+      <if test="phoneNum != null">
+        phone_num = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtLastLogin != null">
+        gmt_last_login = #{gmtLastLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="wxId != null">
+        wx_id = #{wxId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fengyiai.simpledu.model.Account">
+    update account
+    set phone_num = #{phoneNum,jdbcType=VARCHAR},
+      gmt_last_login = #{gmtLastLogin,jdbcType=TIMESTAMP},
+      wx_id = #{wxId,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+</mapper>
