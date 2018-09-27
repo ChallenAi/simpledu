@@ -1,6 +1,7 @@
 package com.fengyiai.simpledu.controller;
 
 import com.fengyiai.simpledu.model.Wiki;
+import com.fengyiai.simpledu.service.WikiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +13,9 @@ import java.util.Map;
 @RestController
 public class CommonController {
 
+    @Autowired
+    private WikiService wikiService;
+
     @RequestMapping(value = "/ping")
     public Map<String, Object> pong() {
         Map<String, Object> resu = new Hashtable<>();
@@ -22,12 +26,14 @@ public class CommonController {
 
     // 根据关键词搜索所有资源
     @RequestMapping(value = "/oapi/search")
-    public Map<String, Object> searchWikis(@RequestParam String keyword) {
+    public Map<String, Object> searchResources(@RequestParam String keyword) {
 
-//        Wiki wiki = wikiMapper.selectByPrimaryKey(userId);
+
+        Map<String, Object> wikiResu = wikiService.searchWikiOrWikisByKeyword(keyword);
+
         Map<String, Object> resu = new Hashtable<>();
         resu.put("code", 0);
-//        resu.put("data", wiki);
+        resu.put("data", wikiResu);
         return resu;
     }
 

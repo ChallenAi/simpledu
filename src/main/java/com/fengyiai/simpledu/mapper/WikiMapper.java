@@ -14,4 +14,6 @@ public interface WikiMapper {
     int updateByPrimaryKeySelective(Wiki record);
 
     int updateByPrimaryKey(Wiki record);
+
+    Wiki selectByWikiName(String keyword);
 }

@@ -196,4 +196,10 @@
       relative_article_ids = #{relativeArticleIds,jdbcType=VARCHAR}
     where wiki_id = #{wikiId,jdbcType=BIGINT}
   </update>
+  <select id="selectByWikiName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wiki
+    where name = #{keyword}
+  </select>
 </mapper>
