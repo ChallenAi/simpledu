@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengyiai.simpledu.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.fengyiai.simpledu.model.User">
+    <id column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="is_valid" jdbcType="BIT" property="isValid" />
+    <result column="is_delete" jdbcType="BIT" property="isDelete" />
+    <result column="type" jdbcType="SMALLINT" property="type" />
+    <result column="is_fake" jdbcType="BIT" property="isFake" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, name, avatar, gmt_create, gmt_modified, is_valid, is_delete, type, is_fake
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from userinfo
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from userinfo
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.fengyiai.simpledu.model.User">
+    insert into userinfo (user_id, name, avatar, 
+      gmt_create, gmt_modified, is_valid, 
+      is_delete, type, is_fake)
+    values (#{userId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{isValid,jdbcType=BIT}, 
+      #{isDelete,jdbcType=BIT}, #{type,jdbcType=SMALLINT}, #{isFake,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fengyiai.simpledu.model.User">
+    insert into userinfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="avatar != null">
+        avatar,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="isValid != null">
+        is_valid,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="isFake != null">
+        is_fake,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isValid != null">
+        #{isValid,jdbcType=BIT},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="isFake != null">
+        #{isFake,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fengyiai.simpledu.model.User">
+    update userinfo
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isValid != null">
+        is_valid = #{isValid,jdbcType=BIT},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=BIT},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="isFake != null">
+        is_fake = #{isFake,jdbcType=BIT},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fengyiai.simpledu.model.User">
+    update userinfo
+    set name = #{name,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      is_valid = #{isValid,jdbcType=BIT},
+      is_delete = #{isDelete,jdbcType=BIT},
+      type = #{type,jdbcType=SMALLINT},
+      is_fake = #{isFake,jdbcType=BIT}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+</mapper>

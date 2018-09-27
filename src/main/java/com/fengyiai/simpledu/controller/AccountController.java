@@ -7,6 +7,7 @@ import com.fengyiai.simpledu.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -21,7 +22,7 @@ public class AccountController {
 
     // 登录: 模拟账户使用hash登录
     @RequestMapping(value = "/oapi/hash_login", method = RequestMethod.POST)
-    public Map<String, Object> loginHash() {
+    public Map<String, Object> loginHash(@RequestParam String hash) {
         // 根据hash兑换userId
 
         // mock userId = 5 ，是受限子用户

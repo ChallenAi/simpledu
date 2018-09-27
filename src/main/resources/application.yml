@@ -5,6 +5,7 @@ spring:
     password: root
   mvc:
     throw-exception-if-no-handler-found: true
+    log-resolved-exception: true
 mybatis:
   type-aliases-package: com.fengyiai.simpledu.model
   mapper-locations: classpath*:com/fengyiai/simpledu/mapper/impl/*.xml

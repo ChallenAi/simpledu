@@ -81,7 +81,7 @@ public class WikiController {
         return "ok";
     }
 
-    // 搜索词条
+    // 搜索词条(留)
     @RequestMapping(value = "/oapi/wiki/search")
     public String searchWikis(@RequestParam String keyword) {
         return "ok";
