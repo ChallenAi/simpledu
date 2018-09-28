@@ -7,7 +7,6 @@ import com.fengyiai.simpledu.model.Question;
 import com.fengyiai.simpledu.model.Wiki;
 import com.fengyiai.simpledu.service.WikiService;
 import com.fengyiai.simpledu.util.RespSucc;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
