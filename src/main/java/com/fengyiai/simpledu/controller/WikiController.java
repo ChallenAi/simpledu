@@ -4,6 +4,7 @@ import com.fengyiai.simpledu.exception.CtxException;
 import com.fengyiai.simpledu.mapper.UserMapper;
 import com.fengyiai.simpledu.mapper.ExplainMapper;
 import com.fengyiai.simpledu.mapper.WikiMapper;
+import com.fengyiai.simpledu.model.Explain;
 import com.fengyiai.simpledu.model.Wiki;
 import com.fengyiai.simpledu.service.WikiService;
 import com.fengyiai.simpledu.util.RespReqFail;
@@ -59,7 +60,7 @@ public class WikiController {
         try {
             Integer succ = wikiMapper.insertSelective(wiki);
             if (succ == 1) {
-                return new RespSucc();
+                return new RespSucc("ok");
             } else {
                 return new RespServerFail("新增词条失败");
             }
@@ -71,8 +72,37 @@ public class WikiController {
 
     // 新增解释
     @RequestMapping(value = "/api/explain", method = RequestMethod.POST)
-    public String addExplain() {
-        return "ok";
+    public Object addExplain(@RequestAttribute String userId, @RequestBody Map<String, String> payload) {
+        if (payload.get("content") == null || payload.get("wikiId") == null) {
+            return new RespReqFail("缺少请求参数");
+        }
+
+        Long wikiId = Long.valueOf(payload.get("wikiId"));
+
+        // 查看wikiId是否有对应词条
+        Wiki wikiParent = wikiMapper.selectByPrimaryKey(wikiId);
+        if (wikiParent == null) {
+            return new RespReqFail("请求参数错误");
+        }
+
+        Explain explain = new Explain();
+        explain.setContent(payload.get("content"));
+        explain.setWikiId(wikiId);
+        explain.setCreaterId(Long.valueOf(userId));
+        explain.setGmtCreate(new Date());
+        explain.setGmtModified(new Date());
+
+        try {
+            Integer succ = explainMapper.insertSelective(explain);
+            if (succ == 1) {
+                return new RespSucc("ok");
+            } else {
+                return new RespServerFail("新增解释失败");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            return new RespServerFail(e.getMessage());
+        }
     }
 
     // 新增问题
