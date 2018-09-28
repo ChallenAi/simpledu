@@ -1,15 +1,22 @@
 package com.fengyiai.simpledu.controller;
 
+import com.fengyiai.simpledu.exception.CtxException;
+import com.fengyiai.simpledu.model.Answer;
+import com.fengyiai.simpledu.model.Explain;
+import com.fengyiai.simpledu.model.Question;
 import com.fengyiai.simpledu.model.Wiki;
 import com.fengyiai.simpledu.service.WikiService;
 import com.fengyiai.simpledu.util.RespSucc;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Hashtable;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @RestController
 public class CommonController {
@@ -33,7 +40,60 @@ public class CommonController {
         Map<String, Object> wikiResu = wikiService.searchWikiOrWikisByKeyword(keyword);
 
         if ((Boolean) wikiResu.get("isFind")) {
-            resp.setData(wikiResu.get("data"));
+            final Wiki wiki = (Wiki) ((Map) wikiResu.get("data")).get("wiki");
+            Map<String, Object> data = new HashMap<>();
+            data.put("wiki", wiki);
+            // latch计数器
+            CountDownLatch latch = new CountDownLatch(2);
+            // 线程池大小
+            ExecutorService pool = Executors.newFixedThreadPool(2);
+            pool.execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        List<Question> questions = wikiService.getQuestionListByWikiId(wiki.getWikiId(), 3, 0);
+                        // 拉取所有回答，并拼接回答
+                        List<Long> questionIds = new ArrayList<>();
+                        questions.forEach(i -> {
+                            questionIds.add(i.getQuestionId());
+                        });
+                        List<Answer> answers = wikiService.getAnswerListByQuestionIdList(questionIds);
+                        data.put("questions", questions);
+                        data.put("answers", answers);
+                    } catch (Exception e) {
+                        data.put("error", true);
+                        data.put("msg", e.getMessage());
+                    } finally {
+                        latch.countDown();
+                    }
+                }
+            });
+            pool.execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        List<Explain> explains = wikiService.getExplainListByWikiId(wiki.getWikiId(), 3, 0);
+                        data.put("explains", explains);
+                    } catch (Exception e) {
+                        data.put("error", true);
+                        data.put("msg", e.getMessage());
+                    } finally {
+                        latch.countDown();
+                    }
+                }
+            });
+            try {
+                latch.await();
+            } catch (InterruptedException e) {
+                System.out.println(e.getMessage());
+            }
+
+            // 如果有线程执行错误
+            if (data.get("error") != null) {
+                System.out.println(data.get("msg"));
+                throw new CtxException(500, "服务查询数据错误");
+            }
+            resp.setData(data);
         } else {
             resp.setData(wikiResu.get("data"));
         }

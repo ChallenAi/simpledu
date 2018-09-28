@@ -138,14 +138,14 @@
     where answer_id = #{answerId,jdbcType=BIGINT}
   </update>
 
-  <select id="selectByQuestionIds" parameterType="List" resultMap="BaseResultMap">
+  <select id="selectByQuestionIds" parameterType="java.util.List" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from answer
     <where>
-      <if test="questionIds != null and questionIds.size()>0">
+      <if test="list != null and list.size()>0">
         AND question_id IN
-        <foreach item="item" index="index" collection="questionIds" open="("  close=")" separator=",">
+        <foreach item="item" index="index" collection="list" open="("  close=")" separator=",">
           #{item}
         </foreach>
       </if>
