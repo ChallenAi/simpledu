@@ -30,19 +30,22 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!--生成对应表及类名, tableName表名， domainObjectName是java的model类名-->
-        <table tableName="userinfo" domainObjectName="User" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
-        </table>
-        <table tableName="wiki" domainObjectName="Wiki" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
-        </table>
+        <!--被注释的table是已经generator过，并被修改过Mapper和model的，所以不能覆盖-->
+        <!--<table tableName="userinfo" domainObjectName="User" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">-->
+        <!--</table>-->
+        <!--<table tableName="wiki" domainObjectName="Wiki" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">-->
+        <!--</table>-->
         <table tableName="review" domainObjectName="Review" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
         </table>
-        <table tableName="account" domainObjectName="Account" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
-        </table>
-        <table tableName="explain" domainObjectName="Explain" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
-        </table>
-        <table tableName="question" domainObjectName="Question" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
-        </table>
-        <table tableName="answer" domainObjectName="Answer" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
+        <!--<table tableName="account" domainObjectName="Account" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">-->
+        <!--</table>-->
+        <!--<table tableName="explain" domainObjectName="Explain" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">-->
+        <!--</table>-->
+        <!--<table tableName="question" domainObjectName="Question" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">-->
+        <!--</table>-->
+        <!--<table tableName="answer" domainObjectName="Answer" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">-->
+        <!--</table>-->
+        <table tableName="wiki_collect" domainObjectName="WikiCollect" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
         </table>
     </context>
 </generatorConfiguration>

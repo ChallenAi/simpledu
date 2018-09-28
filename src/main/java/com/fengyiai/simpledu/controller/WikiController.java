@@ -8,7 +8,6 @@ import com.fengyiai.simpledu.mapper.WikiMapper;
 import com.fengyiai.simpledu.model.Explain;
 import com.fengyiai.simpledu.model.Question;
 import com.fengyiai.simpledu.model.Wiki;
-import com.fengyiai.simpledu.service.WikiService;
 import com.fengyiai.simpledu.util.RespReqFail;
 import com.fengyiai.simpledu.util.RespServerFail;
 import com.fengyiai.simpledu.util.RespSucc;
@@ -37,7 +36,7 @@ public class WikiController {
 
     // 新增词条
     @RequestMapping(value = "/api/wiki", method = RequestMethod.POST)
-    public Object addWiki(@RequestAttribute String userId, @RequestBody Map<String, String> payload) {
+    public Object addWiki(@RequestAttribute Long userId, @RequestBody Map<String, String> payload) {
 
         if (payload.get("parentId") == null || payload.get("name") == null) {
             return new RespReqFail("缺少请求参数");
@@ -57,7 +56,7 @@ public class WikiController {
         wiki.setName(payload.get("name"));
         wiki.setAlias(payload.get("alias"));
         wiki.setEnglishName(payload.get("englishName"));
-        wiki.setCreaterId(Long.valueOf(userId));
+        wiki.setCreaterId(userId);
         wiki.setGmtCreate(new Date());
         wiki.setGmtModified(new Date());
         wiki.setParentId(parentId);
@@ -77,7 +76,7 @@ public class WikiController {
 
     // 新增解释
     @RequestMapping(value = "/api/explain", method = RequestMethod.POST)
-    public Object addExplain(@RequestAttribute String userId, @RequestBody Map<String, String> payload) {
+    public Object addExplain(@RequestAttribute Long userId, @RequestBody Map<String, String> payload) {
         if (payload.get("content") == null || payload.get("wikiId") == null) {
             return new RespReqFail("缺少请求参数");
         }
@@ -93,7 +92,7 @@ public class WikiController {
         Explain explain = new Explain();
         explain.setContent(payload.get("content"));
         explain.setWikiId(wikiId);
-        explain.setCreaterId(Long.valueOf(userId));
+        explain.setCreaterId(userId);
         explain.setGmtCreate(new Date());
         explain.setGmtModified(new Date());
 
@@ -112,7 +111,7 @@ public class WikiController {
 
     // 新增问题
     @RequestMapping(value = "/api/question", method = RequestMethod.POST)
-    public Object addQuestion(@RequestAttribute String userId, @RequestBody Map<String, String> payload) {
+    public Object addQuestion(@RequestAttribute Long userId, @RequestBody Map<String, String> payload) {
         if (payload.get("content") == null || payload.get("wikiId") == null) {
             return new RespReqFail("缺少请求参数");
         }
@@ -128,7 +127,7 @@ public class WikiController {
         Question question = new Question();
         question.setContent(payload.get("content"));
         question.setWikiId(wikiId);
-        question.setCreaterId(Long.valueOf(userId));
+        question.setCreaterId(userId);
         question.setGmtCreate(new Date());
 
         try {
@@ -146,68 +145,62 @@ public class WikiController {
 
     // 新增回答
     @RequestMapping(value = "/api/answer", method = RequestMethod.POST)
-    public String addAnswer() {
-        return "ok";
+    public String addAnswer(@RequestAttribute Long userId, @RequestBody Map<String, String> payload) {
+        return new RespSucc("ok");
     }
 
-    // 点赞解释
-    @RequestMapping(value = "/api/explain_up", method = RequestMethod.POST)
-    public String explainUp() {
-        return "ok";
-    }
-
-    // 踩解释
-    @RequestMapping(value = "/api/explain_down", method = RequestMethod.POST)
-    public String explainDown() {
-        return "ok";
+    // 评价解释(点赞或踩, enum type{up/down})
+    @RequestMapping(value = "/api/explain/action", method = RequestMethod.POST)
+    public String explainAction(@RequestAttribute Long userId, @RequestBody Map<String, String> payload) {
+        return new RespSucc("ok");
     }
 
     // 收藏解释
     @RequestMapping(value = "/api/explain_collect", method = RequestMethod.POST)
-    public String explainCollect() {
-        return "ok";
+    public String explainCollect(@RequestAttribute Long userId, @RequestBody Map<String, String> payload) {
+        return new RespSucc("ok");
     }
 
     // 分享解释(留)
     @RequestMapping(value = "/api/explain_share", method = RequestMethod.POST)
     public String explainShare() {
-        return "ok";
+        return new RespSucc("ok");
     }
 
-    // 点赞回答
-    @RequestMapping(value = "/api/answer_good", method = RequestMethod.POST)
-    public String answerGood() {
-        return "ok";
+    // 评价回答(点赞或踩, enum type{up/down})
+    @RequestMapping(value = "/api/answer/action", method = RequestMethod.POST)
+    public String answerAction(@RequestAttribute Long userId, @RequestBody Map<String, String> payload) {
+        return new RespSucc("ok");
     }
 
     // 收藏回答
     @RequestMapping(value = "/api/answer_collect", method = RequestMethod.POST)
     public String answerCollect() {
-        return "ok";
+        return new RespSucc("ok");
     }
 
     // 搜索词条(留)
     @RequestMapping(value = "/oapi/wiki/search")
     public String searchWikis(@RequestParam String keyword) {
-        return "ok";
+        return new RespSucc("ok");
     }
 
     // 搜索问题
     @RequestMapping(value = "/oapi/question/search")
     public String searchQuestions(@RequestParam String keyword) {
-        return "ok";
+        return new RespSucc("ok");
     }
 
     // web词条首页信息
     @RequestMapping(value = "/oapi/wiki/web")
     public String wikiWeb() {
-        return "ok";
+        return new RespSucc("ok");
     }
 
     // app词条首页信息(留)，根据id获取词条信息
     @RequestMapping(value = "/oapi/wiki/app")
     public String wikiApp() {
-        return "ok";
+        return new RespSucc("ok");
     }
 
     // 获取解释列表(点击加载更多)
@@ -227,6 +220,6 @@ public class WikiController {
     // 获取问题列表(点击加载更多)
     @RequestMapping(value = "/oapi/question/list")
     public String getQuestions() {
-        return "ok";
+        return new RespSucc("ok");
     }
 }

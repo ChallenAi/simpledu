@@ -22,7 +22,9 @@ public class Intercepter extends HandlerInterceptorAdapter {
 
         Claims claims = JwtUtil.checkToken(token);
 
-        request.setAttribute("userId",claims.getSubject());
+        Long userId = Long.valueOf(claims.getSubject());
+
+        request.setAttribute("userId", userId);
 
         return true;
     }
