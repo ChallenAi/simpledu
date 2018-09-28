@@ -4,6 +4,7 @@ import com.fengyiai.simpledu.exception.CtxException;
 import com.fengyiai.simpledu.mapper.UserMapper;
 import com.fengyiai.simpledu.model.User;
 import com.fengyiai.simpledu.util.JwtUtil;
+import com.fengyiai.simpledu.util.RespSucc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 
 @RestController
@@ -22,7 +22,7 @@ public class AccountController {
 
     // 登录: 模拟账户使用hash登录
     @RequestMapping(value = "/oapi/hash_login", method = RequestMethod.POST)
-    public Map<String, Object> loginHash(@RequestParam String hash) {
+    public RespSucc loginHash(@RequestParam String hash) {
         // 根据hash兑换userId
 
         // mock userId = 5 ，是受限子用户
@@ -37,11 +37,10 @@ public class AccountController {
             throw new CtxException(402, "错误的登录码");
         } else {
             String token = JwtUtil.getToken(user.getUserId().toString(), true);
-            Map<String, Object> resu = new Hashtable<>();
-            resu.put("code", 0);
-            resu.put("data", user);
-            resu.put("token", token);
-            return resu;
+            Map<String, Object> data = new HashMap<>();
+            data.put("user", user);
+            data.put("token", token);
+            return new RespSucc(data);
         }
     }
 

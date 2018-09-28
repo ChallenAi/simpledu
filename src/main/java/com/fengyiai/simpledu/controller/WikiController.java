@@ -109,7 +109,7 @@ public class WikiController {
     @RequestMapping(value = "/oapi/explain/list")
     public HashMap<String, Object> getExplains() {
         // @RequestParam String pageSize, String pageNumber
-//        Iterable<Map> data = explainMapper.findExplainsByWikiId(1);
+//        List<Map> data = explainMapper.findExplainsByWikiId(1);
 
 //        System.out.println(data);
         HashMap<String, Object> resp = new HashMap<>();
