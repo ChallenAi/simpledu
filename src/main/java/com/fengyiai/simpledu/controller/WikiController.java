@@ -1,10 +1,12 @@
 package com.fengyiai.simpledu.controller;
 
 import com.fengyiai.simpledu.exception.CtxException;
+import com.fengyiai.simpledu.mapper.QuestionMapper;
 import com.fengyiai.simpledu.mapper.UserMapper;
 import com.fengyiai.simpledu.mapper.ExplainMapper;
 import com.fengyiai.simpledu.mapper.WikiMapper;
 import com.fengyiai.simpledu.model.Explain;
+import com.fengyiai.simpledu.model.Question;
 import com.fengyiai.simpledu.model.Wiki;
 import com.fengyiai.simpledu.service.WikiService;
 import com.fengyiai.simpledu.util.RespReqFail;
@@ -29,6 +31,9 @@ public class WikiController {
 
     @Autowired
     private WikiMapper wikiMapper;
+
+    @Autowired
+    private QuestionMapper questionMapper;
 
     // 新增词条
     @RequestMapping(value = "/api/wiki", method = RequestMethod.POST)
@@ -107,8 +112,36 @@ public class WikiController {
 
     // 新增问题
     @RequestMapping(value = "/api/question", method = RequestMethod.POST)
-    public String addQuestion() {
-        return "ok";
+    public Object addQuestion(@RequestAttribute String userId, @RequestBody Map<String, String> payload) {
+        if (payload.get("content") == null || payload.get("wikiId") == null) {
+            return new RespReqFail("缺少请求参数");
+        }
+
+        Long wikiId = Long.valueOf(payload.get("wikiId"));
+
+        // 查看wikiId是否有对应词条
+        Wiki wikiParent = wikiMapper.selectByPrimaryKey(wikiId);
+        if (wikiParent == null) {
+            return new RespReqFail("请求参数错误");
+        }
+
+        Question question = new Question();
+        question.setContent(payload.get("content"));
+        question.setWikiId(wikiId);
+        question.setCreaterId(Long.valueOf(userId));
+        question.setGmtCreate(new Date());
+
+        try {
+            Integer succ = questionMapper.insertSelective(question);
+            if (succ == 1) {
+                return new RespSucc("ok");
+            } else {
+                return new RespServerFail("新增问题失败");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            return new RespServerFail(e.getMessage());
+        }
     }
 
     // 新增回答
