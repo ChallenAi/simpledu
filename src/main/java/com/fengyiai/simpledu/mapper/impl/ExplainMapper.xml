@@ -174,4 +174,12 @@
       review = #{review,jdbcType=BIGINT}
     where explain_id = #{explainId,jdbcType=BIGINT}
   </update>
+  <select id="selectByWikiId" parameterType="Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from explain
+    where wiki_id = #{wikiId,jdbcType=BIGINT}
+    limit #{limit}
+    offset #{offset}
+  </select>
 </mapper>

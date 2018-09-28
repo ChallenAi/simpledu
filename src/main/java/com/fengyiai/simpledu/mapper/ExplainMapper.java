@@ -2,6 +2,9 @@ package com.fengyiai.simpledu.mapper;
 
 import com.fengyiai.simpledu.model.Explain;
 
+import java.util.List;
+import java.util.Map;
+
 public interface ExplainMapper {
     int deleteByPrimaryKey(Long explainId);
 
@@ -14,4 +17,6 @@ public interface ExplainMapper {
     int updateByPrimaryKeySelective(Explain record);
 
     int updateByPrimaryKey(Explain record);
+
+    List<Explain> selectByWikiId(Map params);
 }

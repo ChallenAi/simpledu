@@ -29,6 +29,9 @@ public class CommonController {
     public Map<String, Object> searchResources(@RequestParam String keyword) {
 
 
+        // 返回值{find; wiki或wikis}
+        // 如果是由匹配到的wiki,直接用wikiId并发取解释/问题和回答；await都完成(用latch)并整合结果返回resu
+        // 如果是wikis,即find是false, 直接返回wikis列表，用于展示搜索结果
         Map<String, Object> wikiResu = wikiService.searchWikiOrWikisByKeyword(keyword);
 
         Map<String, Object> resu = new Hashtable<>();

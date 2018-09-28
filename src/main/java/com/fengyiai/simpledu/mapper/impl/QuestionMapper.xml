@@ -103,4 +103,12 @@
       wiki_id = #{wikiId,jdbcType=BIGINT}
     where question_id = #{questionId,jdbcType=BIGINT}
   </update>
+  <select id="selectByWikiId" parameterType="Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from question
+    where wiki_id = #{wikiId,jdbcType=BIGINT}
+    limit #{limit}
+    offset #{offset}
+  </select>
 </mapper>
