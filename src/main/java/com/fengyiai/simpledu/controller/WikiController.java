@@ -1,14 +1,19 @@
 package com.fengyiai.simpledu.controller;
 
+import com.fengyiai.simpledu.exception.CtxException;
 import com.fengyiai.simpledu.mapper.UserMapper;
 import com.fengyiai.simpledu.mapper.ExplainMapper;
+import com.fengyiai.simpledu.mapper.WikiMapper;
+import com.fengyiai.simpledu.model.Wiki;
+import com.fengyiai.simpledu.service.WikiService;
+import com.fengyiai.simpledu.util.RespReqFail;
+import com.fengyiai.simpledu.util.RespServerFail;
+import com.fengyiai.simpledu.util.RespSucc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,10 +26,47 @@ public class WikiController {
     @Autowired
     private ExplainMapper explainMapper;
 
+    @Autowired
+    private WikiMapper wikiMapper;
+
     // 新增词条
     @RequestMapping(value = "/api/wiki", method = RequestMethod.POST)
-    public Object addWiki() {
-        return "ok";
+    public Object addWiki(@RequestAttribute String userId, @RequestBody Map<String, String> payload) {
+
+        if (payload.get("parentId") == null || payload.get("name") == null) {
+            return new RespReqFail("缺少请求参数");
+        }
+
+        Long parentId = Long.valueOf(payload.get("parentId"));
+
+        // 如果不是根词条，就需要验证他的父标签是否存在
+        if (parentId != 0L) {
+            Wiki wikiParent = wikiMapper.selectByPrimaryKey(parentId);
+            if (wikiParent == null) {
+                return new RespReqFail("请求参数错误");
+            }
+        }
+
+        Wiki wiki = new Wiki();
+        wiki.setName(payload.get("name"));
+        wiki.setAlias(payload.get("alias"));
+        wiki.setEnglishName(payload.get("englishName"));
+        wiki.setCreaterId(Long.valueOf(userId));
+        wiki.setGmtCreate(new Date());
+        wiki.setGmtModified(new Date());
+        wiki.setParentId(parentId);
+
+        try {
+            Integer succ = wikiMapper.insertSelective(wiki);
+            if (succ == 1) {
+                return new RespSucc();
+            } else {
+                return new RespServerFail("新增词条失败");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            return new RespServerFail(e.getMessage());
+        }
     }
 
     // 新增解释

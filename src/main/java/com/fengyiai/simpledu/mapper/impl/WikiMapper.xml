@@ -32,12 +32,12 @@
     where wiki_id = #{wikiId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.fengyiai.simpledu.model.Wiki">
-    insert into wiki (wiki_id, creater_id, name, 
+    insert into wiki (wiki_id, creater_id, name,
       parent_id, tree_code, gmt_create, 
       gmt_modified, description, alias, 
       english_name, view, finish_ratio, 
       relative_wiki_ids, relative_article_ids)
-    values (#{wikiId,jdbcType=BIGINT}, #{createrId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+    values (#{wikiId,jdbcType=BIGINT}, #{createrId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
       #{parentId,jdbcType=BIGINT}, #{treeCode,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
       #{gmtModified,jdbcType=TIMESTAMP}, #{description,jdbcType=VARCHAR}, #{alias,jdbcType=VARCHAR}, 
       #{englishName,jdbcType=VARCHAR}, #{view,jdbcType=BIGINT}, #{finishRatio,jdbcType=INTEGER}, 
