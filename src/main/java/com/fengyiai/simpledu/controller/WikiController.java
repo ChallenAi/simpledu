@@ -8,9 +8,7 @@ import com.fengyiai.simpledu.mapper.WikiMapper;
 import com.fengyiai.simpledu.model.Explain;
 import com.fengyiai.simpledu.model.Question;
 import com.fengyiai.simpledu.model.Wiki;
-import com.fengyiai.simpledu.util.RespReqFail;
-import com.fengyiai.simpledu.util.RespServerFail;
-import com.fengyiai.simpledu.util.RespSucc;
+import com.fengyiai.simpledu.util.Resp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +37,7 @@ public class WikiController {
     public Object addWiki(@RequestAttribute Long userId, @RequestBody Map<String, String> payload) {
 
         if (payload.get("parentId") == null || payload.get("name") == null) {
-            return new RespReqFail("缺少请求参数");
+            return Resp.RespReqFail("缺少请求参数");
         }
 
         Long parentId = Long.valueOf(payload.get("parentId"));
@@ -48,7 +46,7 @@ public class WikiController {
         if (parentId != 0L) {
             Wiki wikiParent = wikiMapper.selectByPrimaryKey(parentId);
             if (wikiParent == null) {
-                return new RespReqFail("请求参数错误");
+                return Resp.RespReqFail("请求参数错误");
             }
         }
 
@@ -64,13 +62,13 @@ public class WikiController {
         try {
             Integer succ = wikiMapper.insertSelective(wiki);
             if (succ == 1) {
-                return new RespSucc("ok");
+                return Resp.RespSucc("ok");
             } else {
-                return new RespServerFail("新增词条失败");
+                return Resp.RespServerFail("新增词条失败");
             }
         } catch (Exception e) {
             System.out.println(e);
-            return new RespServerFail(e.getMessage());
+            return Resp.RespServerFail(e.getMessage());
         }
     }
 
@@ -78,7 +76,7 @@ public class WikiController {
     @RequestMapping(value = "/api/explain", method = RequestMethod.POST)
     public Object addExplain(@RequestAttribute Long userId, @RequestBody Map<String, String> payload) {
         if (payload.get("content") == null || payload.get("wikiId") == null) {
-            return new RespReqFail("缺少请求参数");
+            return Resp.RespReqFail("缺少请求参数");
         }
 
         Long wikiId = Long.valueOf(payload.get("wikiId"));
@@ -86,7 +84,7 @@ public class WikiController {
         // 查看wikiId是否有对应词条
         Wiki wikiParent = wikiMapper.selectByPrimaryKey(wikiId);
         if (wikiParent == null) {
-            return new RespReqFail("请求参数错误");
+            return Resp.RespReqFail("请求参数错误");
         }
 
         Explain explain = new Explain();
@@ -99,13 +97,13 @@ public class WikiController {
         try {
             Integer succ = explainMapper.insertSelective(explain);
             if (succ == 1) {
-                return new RespSucc("ok");
+                return Resp.RespSucc("ok");
             } else {
-                return new RespServerFail("新增解释失败");
+                return Resp.RespServerFail("新增解释失败");
             }
         } catch (Exception e) {
             System.out.println(e);
-            return new RespServerFail(e.getMessage());
+            return Resp.RespServerFail(e.getMessage());
         }
     }
 
@@ -113,7 +111,7 @@ public class WikiController {
     @RequestMapping(value = "/api/question", method = RequestMethod.POST)
     public Object addQuestion(@RequestAttribute Long userId, @RequestBody Map<String, String> payload) {
         if (payload.get("content") == null || payload.get("wikiId") == null) {
-            return new RespReqFail("缺少请求参数");
+            return Resp.RespReqFail("缺少请求参数");
         }
 
         Long wikiId = Long.valueOf(payload.get("wikiId"));
@@ -121,7 +119,7 @@ public class WikiController {
         // 查看wikiId是否有对应词条
         Wiki wikiParent = wikiMapper.selectByPrimaryKey(wikiId);
         if (wikiParent == null) {
-            return new RespReqFail("请求参数错误");
+            return Resp.RespReqFail("请求参数错误");
         }
 
         Question question = new Question();
@@ -133,74 +131,74 @@ public class WikiController {
         try {
             Integer succ = questionMapper.insertSelective(question);
             if (succ == 1) {
-                return new RespSucc("ok");
+                return Resp.RespSucc("ok");
             } else {
-                return new RespServerFail("新增问题失败");
+                return Resp.RespServerFail("新增问题失败");
             }
         } catch (Exception e) {
             System.out.println(e);
-            return new RespServerFail(e.getMessage());
+            return Resp.RespServerFail(e.getMessage());
         }
     }
 
     // 新增回答
     @RequestMapping(value = "/api/answer", method = RequestMethod.POST)
     public String addAnswer(@RequestAttribute Long userId, @RequestBody Map<String, String> payload) {
-        return new RespSucc("ok");
+        return Resp.RespSucc("ok");
     }
 
     // 评价解释(点赞或踩, enum type{up/down})
     @RequestMapping(value = "/api/explain/action", method = RequestMethod.POST)
     public String explainAction(@RequestAttribute Long userId, @RequestBody Map<String, String> payload) {
-        return new RespSucc("ok");
+        return Resp.RespSucc("ok");
     }
 
     // 收藏解释
     @RequestMapping(value = "/api/explain_collect", method = RequestMethod.POST)
     public String explainCollect(@RequestAttribute Long userId, @RequestBody Map<String, String> payload) {
-        return new RespSucc("ok");
+        return Resp.RespSucc("ok");
     }
 
     // 分享解释(留)
     @RequestMapping(value = "/api/explain_share", method = RequestMethod.POST)
     public String explainShare() {
-        return new RespSucc("ok");
+        return Resp.RespSucc("ok");
     }
 
     // 评价回答(点赞或踩, enum type{up/down})
     @RequestMapping(value = "/api/answer/action", method = RequestMethod.POST)
     public String answerAction(@RequestAttribute Long userId, @RequestBody Map<String, String> payload) {
-        return new RespSucc("ok");
+        return Resp.RespSucc("ok");
     }
 
     // 收藏回答
     @RequestMapping(value = "/api/answer_collect", method = RequestMethod.POST)
     public String answerCollect() {
-        return new RespSucc("ok");
+        return Resp.RespSucc("ok");
     }
 
     // 搜索词条(留)
     @RequestMapping(value = "/oapi/wiki/search")
     public String searchWikis(@RequestParam String keyword) {
-        return new RespSucc("ok");
+        return Resp.RespSucc("ok");
     }
 
     // 搜索问题
     @RequestMapping(value = "/oapi/question/search")
     public String searchQuestions(@RequestParam String keyword) {
-        return new RespSucc("ok");
+        return Resp.RespSucc("ok");
     }
 
     // web词条首页信息
     @RequestMapping(value = "/oapi/wiki/web")
     public String wikiWeb() {
-        return new RespSucc("ok");
+        return Resp.RespSucc("ok");
     }
 
     // app词条首页信息(留)，根据id获取词条信息
     @RequestMapping(value = "/oapi/wiki/app")
     public String wikiApp() {
-        return new RespSucc("ok");
+        return Resp.RespSucc("ok");
     }
 
     // 获取解释列表(点击加载更多)
@@ -220,6 +218,6 @@ public class WikiController {
     // 获取问题列表(点击加载更多)
     @RequestMapping(value = "/oapi/question/list")
     public String getQuestions() {
-        return new RespSucc("ok");
+        return Resp.RespSucc("ok");
     }
 }

@@ -4,7 +4,7 @@ import com.fengyiai.simpledu.exception.CtxException;
 import com.fengyiai.simpledu.mapper.UserMapper;
 import com.fengyiai.simpledu.model.User;
 import com.fengyiai.simpledu.util.JwtUtil;
-import com.fengyiai.simpledu.util.RespSucc;
+import com.fengyiai.simpledu.util.Resp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,7 +22,7 @@ public class AccountController {
 
     // 登录: 模拟账户使用hash登录
     @RequestMapping(value = "/oapi/hash_login", method = RequestMethod.POST)
-    public RespSucc loginHash(@RequestParam String hash) {
+    public String loginHash(@RequestParam String hash) {
         // 根据hash兑换userId
 
         // mock userId = 5 ，是受限子用户
@@ -40,7 +40,7 @@ public class AccountController {
             Map<String, Object> data = new HashMap<>();
             data.put("user", user);
             data.put("token", token);
-            return new RespSucc(data);
+            return Resp.RespSucc(data);
         }
     }
 

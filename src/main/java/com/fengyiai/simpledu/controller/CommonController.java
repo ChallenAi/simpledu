@@ -6,7 +6,7 @@ import com.fengyiai.simpledu.model.Explain;
 import com.fengyiai.simpledu.model.Question;
 import com.fengyiai.simpledu.model.Wiki;
 import com.fengyiai.simpledu.service.WikiService;
-import com.fengyiai.simpledu.util.RespSucc;
+import com.fengyiai.simpledu.util.Resp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,14 +24,14 @@ public class CommonController {
     private WikiService wikiService;
 
     @RequestMapping(value = "/ping")
-    public RespSucc pong() {
-        return new RespSucc("pong");
+    public String pong() {
+        return Resp.RespSucc("pong");
     }
 
     // 根据关键词搜索所有资源
     @RequestMapping(value = "/oapi/search")
-    public RespSucc searchResources(@RequestParam String keyword) {
-        RespSucc resp = new RespSucc();
+    public String searchResources(@RequestParam String keyword) {
+        String resp;
 
         // 返回值{find; wiki或wikis}
         // 如果是由匹配到的wiki(isFind==true),直接用wikiId并发取解释/问题和回答；await都完成(用latch)并整合结果返回resu
@@ -92,9 +92,9 @@ public class CommonController {
                 System.out.println(data.get("msg"));
                 throw new CtxException(500, "服务查询数据错误");
             }
-            resp.setData(data);
+            resp = Resp.RespSucc(data);
         } else {
-            resp.setData(wikiResu.get("data"));
+            resp = Resp.RespSucc(wikiResu.get("data"));
         }
 
         return resp;
@@ -102,15 +102,12 @@ public class CommonController {
 
 
     @RequestMapping(value = "/")
-    public Map<String, Object> index() {
+    public String index() {
 //        Integer a = 1;
 //        if (a != 2) {
 //            throw new CtxException(123, "自定义错误");
 //        }
-        Map<String, Object> resu = new Hashtable<>();
-        resu.put("code", 0);
-        resu.put("message", "ok");
 
-        return resu;
+        return Resp.RespSucc("0");
     }
 }
