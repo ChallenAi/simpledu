@@ -23,13 +23,13 @@ public class CommonController {
     @Autowired
     private WikiService wikiService;
 
-    @RequestMapping(value = "/ping")
+    @RequestMapping(value = "/ping", produces="application/json;charset=UTF-8")
     public String pong() {
-        return Resp.RespSucc("pong");
+        return Resp.RespData("pong");
     }
 
     // 根据关键词搜索所有资源
-    @RequestMapping(value = "/oapi/search")
+    @RequestMapping(value = "/oapi/search", produces="application/json;charset=UTF-8")
     public String searchResources(@RequestParam String keyword) {
         String resp;
 
@@ -92,22 +92,22 @@ public class CommonController {
                 System.out.println(data.get("msg"));
                 throw new CtxException(500, "服务查询数据错误");
             }
-            resp = Resp.RespSucc(data);
+            resp = Resp.RespData(data);
         } else {
-            resp = Resp.RespSucc(wikiResu.get("data"));
+            resp = Resp.RespData(wikiResu.get("data"));
         }
 
         return resp;
     }
 
 
-    @RequestMapping(value = "/")
+    @RequestMapping(value = "/", produces="application/json;charset=UTF-8")
     public String index() {
 //        Integer a = 1;
 //        if (a != 2) {
 //            throw new CtxException(123, "自定义错误");
 //        }
 
-        return Resp.RespSucc("0");
+        return Resp.RespSucc();
     }
 }

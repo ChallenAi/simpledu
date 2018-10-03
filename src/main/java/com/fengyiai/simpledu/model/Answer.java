@@ -1,5 +1,6 @@
 package com.fengyiai.simpledu.model;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class Answer {

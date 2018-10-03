@@ -14,11 +14,9 @@ public class Resp {
         return JSON.toJSONString(resu);
     }
 
-    public static String RespSucc(Object data) {
-        HashMap<String, Object> resu = new HashMap<>();
+    public static String RespSucc() {
+        HashMap<String, Integer> resu = new HashMap<>();
         resu.put("code", 0);
-        resu.put("data", data);
-
         return JSON.toJSONString(resu);
     }
 
@@ -26,6 +24,14 @@ public class Resp {
         HashMap<String, Object> resu = new HashMap<>();
         resu.put("code", 500);
         resu.put("data", msg);
+
+        return JSON.toJSONString(resu);
+    }
+
+    public static String RespData(Object data) {
+        HashMap<String, Object> resu = new HashMap<>();
+        resu.put("code", 0);
+        resu.put("data", data);
 
         return JSON.toJSONString(resu);
     }

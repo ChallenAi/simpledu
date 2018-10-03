@@ -20,7 +20,7 @@ public class UserController {
     private UserMapper userMapper;
 
     // 根据id获取用户信息
-    @RequestMapping(value = "/oapi/user")
+    @RequestMapping(value = "/oapi/user", produces="application/json;charset=UTF-8")
     public Map<String, Object> getUserInfo(@RequestParam String userId) {
         User data = userMapper.selectByPrimaryKey(Long.valueOf(userId));
         Map<String, Object> resp = new HashMap<>();
@@ -30,13 +30,13 @@ public class UserController {
     }
 
     // 关注用户(留)
-    @RequestMapping(value = "/api/user/follow", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/user/follow", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     public String followUser() {
         return "ok";
     }
 
     // 取消关注用户(留)
-    @RequestMapping(value = "/api/user/unfollow", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/user/unfollow", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     public String unfollowUser() {
         return "ok";
     }

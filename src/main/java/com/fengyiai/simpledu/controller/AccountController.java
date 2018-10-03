@@ -21,7 +21,7 @@ public class AccountController {
     private UserMapper userMapper;
 
     // 登录: 模拟账户使用hash登录
-    @RequestMapping(value = "/oapi/hash_login", method = RequestMethod.POST)
+    @RequestMapping(value = "/oapi/hash_login", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     public String loginHash(@RequestParam String hash) {
         // 根据hash兑换userId
 
@@ -40,55 +40,55 @@ public class AccountController {
             Map<String, Object> data = new HashMap<>();
             data.put("user", user);
             data.put("token", token);
-            return Resp.RespSucc(data);
+            return Resp.RespData(data);
         }
     }
 
     // 获取验证码
-    @RequestMapping(value = "/oapi/sms")
+    @RequestMapping(value = "/oapi/sms", produces="application/json;charset=UTF-8")
     public String getSms() {
-        return "ok";
+        return Resp.RespSucc();
     }
 
     // 登录: 手机号验证码
-    @RequestMapping(value = "/oapi/sms", method = RequestMethod.POST)
+    @RequestMapping(value = "/oapi/sms", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     public String loginSms() {
-        return "ok";
+        return Resp.RespSucc();
     }
 
     // 登录：微信
-    @RequestMapping(value = "/oapi/wechat", method = RequestMethod.POST)
+    @RequestMapping(value = "/oapi/wechat", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     public String loginWechat() {
-        return "ok";
+        return Resp.RespSucc();
     }
 
     // 登录：微博
-    @RequestMapping(value = "/oapi/weibo", method = RequestMethod.POST)
+    @RequestMapping(value = "/oapi/weibo", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     public String loginWeibo() {
-        return "ok";
+        return Resp.RespSucc();
     }
 
     // 登录：qq
-    @RequestMapping(value = "/oapi/qq", method = RequestMethod.POST)
+    @RequestMapping(value = "/oapi/qq", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     public String loginQQ() {
-        return "ok";
+        return Resp.RespSucc();
     }
 
     // 注册：管理员(添加管路员)(内部运营平台)
-    @RequestMapping(value = "/api/admin", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/admin", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     public String registerAdmin() {
-        return "ok";
+        return Resp.RespSucc();
     }
 
     // 注册：管理员账户的附属账户
-    @RequestMapping(value = "/api/admin/user", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/admin/user", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     public String fakeUser() {
-        return "ok";
+        return Resp.RespSucc();
     }
 
     // 登录：附属账户 (以管理员账户登录附属账户)
-    @RequestMapping(value = "/api/admin/user")
+    @RequestMapping(value = "/api/admin/user", produces="application/json;charset=UTF-8")
     public String enterAdmin() {
-        return "ok";
+        return Resp.RespSucc();
     }
 }

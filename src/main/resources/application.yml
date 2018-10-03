@@ -10,4 +10,4 @@ mybatis:
   type-aliases-package: com.fengyiai.simpledu.model
   mapper-locations: classpath*:com/fengyiai/simpledu/mapper/impl/*.xml
 server:
-  port: 8000
+  port: 8888
