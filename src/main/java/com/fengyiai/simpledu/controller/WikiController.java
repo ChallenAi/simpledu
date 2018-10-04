@@ -1,14 +1,9 @@
 package com.fengyiai.simpledu.controller;
 
 import com.fengyiai.simpledu.mapper.*;
-import com.fengyiai.simpledu.model.Answer;
-import com.fengyiai.simpledu.model.Explain;
-import com.fengyiai.simpledu.model.Question;
-import com.fengyiai.simpledu.model.Wiki;
-import com.fengyiai.simpledu.requestParams.WikiParams.AddAnswerParams;
-import com.fengyiai.simpledu.requestParams.WikiParams.AddExplainParams;
-import com.fengyiai.simpledu.requestParams.WikiParams.AddQuestionParams;
-import com.fengyiai.simpledu.requestParams.WikiParams.AddWikiParams;
+import com.fengyiai.simpledu.model.*;
+import com.fengyiai.simpledu.requestParams.WikiParams.*;
+import com.fengyiai.simpledu.util.Constants;
 import com.fengyiai.simpledu.util.Resp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,15 +34,18 @@ public class WikiController {
     @Autowired
     private AnswerMapper answerMapper;
 
+    @Autowired
+    private WikiRankMapper wikiRankMapper;
+
     // 新增词条
     @RequestMapping(value = "/api/wiki", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     public String addWiki(@RequestAttribute Long userId, @Valid @RequestBody AddWikiParams p, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return Resp.RespServerFail("参数错误");
+            return Resp.RespReqFail("参数错误");
         }
 
-        Long parentId = p.getParentId();
+        final Long parentId = p.getParentId();
 
         // 如果不是根词条，就需要验证他的父标签是否存在
         if (parentId != 0L) {
@@ -83,7 +81,7 @@ public class WikiController {
     @RequestMapping(value = "/api/explain", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     public Object addExplain(@RequestAttribute Long userId, @Valid @RequestBody AddExplainParams p, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return Resp.RespServerFail("参数错误");
+            return Resp.RespReqFail("参数错误");
         }
 
         Explain explain = new Explain();
@@ -101,7 +99,7 @@ public class WikiController {
                 return Resp.RespServerFail("新增解释失败");
             }
         } catch (DataIntegrityViolationException ex) {
-            return Resp.RespServerFail("无效的wikiId");
+            return Resp.RespReqFail("无效的wikiId");
         } catch (Exception e) {
             System.out.println(e);
             return Resp.RespServerFail(e.getMessage());
@@ -129,7 +127,7 @@ public class WikiController {
                 return Resp.RespServerFail("新增问题失败");
             }
         } catch (DataIntegrityViolationException ex) {
-            return Resp.RespServerFail("无效的wikiId");
+            return Resp.RespReqFail("无效的wikiId");
         }  catch (Exception e) {
             System.out.println(e);
             return Resp.RespServerFail(e.getMessage());
@@ -165,17 +163,51 @@ public class WikiController {
                 return Resp.RespServerFail("新增回答失败");
             }
         } catch (DataIntegrityViolationException ex) {
-            return Resp.RespServerFail("无效的问题id");
+            return Resp.RespReqFail("无效的问题id");
         } catch (Exception e) {
             System.out.println(e);
             return Resp.RespServerFail(e.getMessage());
         }
     }
 
-    // 评价解释(点赞或踩, enum type{up/down})
+    // 评价解释(点赞或踩, enum type{action_up/action_down})
     @RequestMapping(value = "/api/explain/action", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
-    public String explainAction(@RequestAttribute Long userId, @RequestBody Map<String, String> p) {
-        return Resp.RespSucc();
+    public String explainAction(@RequestAttribute Long userId, @RequestBody ActionExplainParams p, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return Resp.RespReqFail("参数错误");
+        }
+
+        final String type = p.getType();
+
+        if (type.equals("action_up") && type.equals("action_down")) {
+            return Resp.RespReqFail("参数错误");
+        }
+
+        // 验证explainId是否对应有解释
+        Explain explain = explainMapper.selectByPrimaryKey(p.getExplainId());
+        if (explain == null) {
+            return Resp.RespReqFail("explainId参数错误");
+        }
+
+        WikiRank wikiRank = new WikiRank();
+        wikiRank.setResourceId(p.getExplainId());
+        // 资源类型id是wiki类型的id
+        wikiRank.setResourceTypeId(Constants.mapParamsToId("explain"));
+        System.out.println(Constants.mapParamsToId(type));
+        wikiRank.setRankTypeId(Constants.mapParamsToId(type));
+        wikiRank.setUserId(userId);
+
+        try {
+            Integer succ = wikiRankMapper.insertSelective(wikiRank);
+            if (succ == 1) {
+                return Resp.RespSucc();
+            } else {
+                return Resp.RespServerFail("评价失败");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            return Resp.RespServerFail(e.getMessage());
+        }
     }
 
     // 收藏解释
@@ -192,8 +224,42 @@ public class WikiController {
 
     // 评价回答(点赞或踩, enum type{up/down})
     @RequestMapping(value = "/api/answer/action", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
-    public String answerAction(@RequestAttribute Long userId, @RequestBody Map<String, String> p) {
-        return Resp.RespSucc();
+    public String answerAction(@RequestAttribute Long userId, @RequestBody ActionAnsweParams p, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return Resp.RespReqFail("参数错误");
+        }
+
+        final String type = p.getType();
+
+        if (type.equals("action_up") && type.equals("action_down")) {
+            return Resp.RespReqFail("参数错误");
+        }
+
+        // 验证explainId是否对应有解释
+        Answer answer = answerMapper.selectByPrimaryKey(p.getAnswerId());
+        if (answer == null) {
+            return Resp.RespReqFail("answerId参数错误");
+        }
+
+        WikiRank wikiRank = new WikiRank();
+        wikiRank.setResourceId(p.getAnswerId());
+        // 资源类型id是wiki类型的id
+        wikiRank.setResourceTypeId(Constants.mapParamsToId("answer"));
+        System.out.println(Constants.mapParamsToId(type));
+        wikiRank.setRankTypeId(Constants.mapParamsToId(type));
+        wikiRank.setUserId(userId);
+
+        try {
+            Integer succ = wikiRankMapper.insertSelective(wikiRank);
+            if (succ == 1) {
+                return Resp.RespSucc();
+            } else {
+                return Resp.RespServerFail("评价失败");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            return Resp.RespServerFail(e.getMessage());
+        }
     }
 
     // 收藏回答

@@ -35,8 +35,8 @@
         <!--</table>-->
         <!--<table tableName="wiki" domainObjectName="Wiki" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">-->
         <!--</table>-->
-        <table tableName="review" domainObjectName="Review" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
-        </table>
+        <!--<table tableName="review" domainObjectName="Review" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">-->
+        <!--</table>-->
         <!--<table tableName="account" domainObjectName="Account" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">-->
         <!--</table>-->
         <!--<table tableName="explain" domainObjectName="Explain" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">-->
@@ -45,7 +45,9 @@
         <!--</table>-->
         <!--<table tableName="answer" domainObjectName="Answer" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">-->
         <!--</table>-->
-        <table tableName="wiki_collect" domainObjectName="WikiCollect" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
-        </table>
+        <!--<table tableName="wiki_collect" domainObjectName="WikiCollect" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">-->
+        <!--</table>-->
+        <!--<table tableName="wiki_rank" domainObjectName="WikiRank" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">-->
+        <!--</table>-->
     </context>
 </generatorConfiguration>

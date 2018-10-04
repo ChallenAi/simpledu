@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengyiai.simpledu.mapper.WikiRankMapper">
+  <resultMap id="BaseResultMap" type="com.fengyiai.simpledu.model.WikiRank">
+    <id column="wiki_rank_id" jdbcType="BIGINT" property="wikiRankId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="resource_id" jdbcType="BIGINT" property="resourceId" />
+    <result column="resource_type_id" jdbcType="BIGINT" property="resourceTypeId" />
+    <result column="rank_type_id" jdbcType="BIGINT" property="rankTypeId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    wiki_rank_id, user_id, resource_id, resource_type_id, rank_type_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wiki_rank
+    where wiki_rank_id = #{wikiRankId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from wiki_rank
+    where wiki_rank_id = #{wikiRankId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.fengyiai.simpledu.model.WikiRank">
+    insert into wiki_rank (wiki_rank_id, user_id, resource_id, 
+      resource_type_id, rank_type_id)
+    values (#{wikiRankId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{resourceId,jdbcType=BIGINT}, 
+      #{resourceTypeId,jdbcType=BIGINT}, #{rankTypeId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fengyiai.simpledu.model.WikiRank">
+    insert into wiki_rank
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="wikiRankId != null">
+        wiki_rank_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="resourceId != null">
+        resource_id,
+      </if>
+      <if test="resourceTypeId != null">
+        resource_type_id,
+      </if>
+      <if test="rankTypeId != null">
+        rank_type_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="wikiRankId != null">
+        #{wikiRankId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="resourceId != null">
+        #{resourceId,jdbcType=BIGINT},
+      </if>
+      <if test="resourceTypeId != null">
+        #{resourceTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="rankTypeId != null">
+        #{rankTypeId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fengyiai.simpledu.model.WikiRank">
+    update wiki_rank
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="resourceId != null">
+        resource_id = #{resourceId,jdbcType=BIGINT},
+      </if>
+      <if test="resourceTypeId != null">
+        resource_type_id = #{resourceTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="rankTypeId != null">
+        rank_type_id = #{rankTypeId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where wiki_rank_id = #{wikiRankId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fengyiai.simpledu.model.WikiRank">
+    update wiki_rank
+    set user_id = #{userId,jdbcType=BIGINT},
+      resource_id = #{resourceId,jdbcType=BIGINT},
+      resource_type_id = #{resourceTypeId,jdbcType=BIGINT},
+      rank_type_id = #{rankTypeId,jdbcType=BIGINT}
+    where wiki_rank_id = #{wikiRankId,jdbcType=BIGINT}
+  </update>
+</mapper>

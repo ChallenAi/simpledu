@@ -20,6 +20,7 @@ public class Resp {
         return JSON.toJSONString(resu);
     }
 
+    // 生产环境注释msg
     public static String RespServerFail(String msg) {
         HashMap<String, Object> resu = new HashMap<>();
         resu.put("code", 500);
