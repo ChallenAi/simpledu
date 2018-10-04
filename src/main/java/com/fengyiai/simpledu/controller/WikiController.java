@@ -37,6 +37,9 @@ public class WikiController {
     @Autowired
     private WikiRankMapper wikiRankMapper;
 
+    @Autowired
+    private WikiCollectMapper wikiCollectMapper;
+
     // 新增词条
     @RequestMapping(value = "/api/wiki", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
     public String addWiki(@RequestAttribute Long userId, @Valid @RequestBody AddWikiParams p, BindingResult bindingResult) {
@@ -193,7 +196,6 @@ public class WikiController {
         wikiRank.setResourceId(p.getExplainId());
         // 资源类型id是wiki类型的id
         wikiRank.setResourceTypeId(Constants.mapParamsToId("explain"));
-        System.out.println(Constants.mapParamsToId(type));
         wikiRank.setRankTypeId(Constants.mapParamsToId(type));
         wikiRank.setUserId(userId);
 
@@ -212,8 +214,34 @@ public class WikiController {
 
     // 收藏解释
     @RequestMapping(value = "/api/explain_collect", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
-    public String explainCollect(@RequestAttribute Long userId, @RequestBody Map<String, String> p) {
-        return Resp.RespSucc();
+    public String explainCollect(@RequestAttribute Long userId, @RequestBody ActionExplainParams p, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return Resp.RespReqFail("参数错误");
+        }
+
+        // 验证explainId是否对应有解释
+        Explain explain = explainMapper.selectByPrimaryKey(p.getExplainId());
+        if (explain == null) {
+            return Resp.RespReqFail("explainId参数错误");
+        }
+
+        WikiCollect wikiCollect = new WikiCollect();
+        wikiCollect.setResourceId(p.getExplainId());
+        // 资源类型id是wiki类型的id
+        wikiCollect.setResourceTypeId(Constants.mapParamsToId("explain"));
+        wikiCollect.setUserId(userId);
+
+        try {
+            Integer succ = wikiCollectMapper.insertSelective(wikiCollect);
+            if (succ == 1) {
+                return Resp.RespSucc();
+            } else {
+                return Resp.RespServerFail("收藏失败");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            return Resp.RespServerFail(e.getMessage());
+        }
     }
 
     // 分享解释(留)
@@ -245,7 +273,6 @@ public class WikiController {
         wikiRank.setResourceId(p.getAnswerId());
         // 资源类型id是wiki类型的id
         wikiRank.setResourceTypeId(Constants.mapParamsToId("answer"));
-        System.out.println(Constants.mapParamsToId(type));
         wikiRank.setRankTypeId(Constants.mapParamsToId(type));
         wikiRank.setUserId(userId);
 
@@ -264,8 +291,34 @@ public class WikiController {
 
     // 收藏回答
     @RequestMapping(value = "/api/answer_collect", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
-    public String answerCollect() {
-        return Resp.RespSucc();
+    public String answerCollect(@RequestAttribute Long userId, @RequestBody CollectAnswerParams p, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return Resp.RespReqFail("参数错误");
+        }
+
+        // 验证explainId是否对应有解释
+        Explain explain = explainMapper.selectByPrimaryKey(p.getAnswerId());
+        if (explain == null) {
+            return Resp.RespReqFail("explainId参数错误");
+        }
+
+        WikiCollect wikiCollect = new WikiCollect();
+        wikiCollect.setResourceId(p.getAnswerId());
+        // 资源类型id是wiki类型的id
+        wikiCollect.setResourceTypeId(Constants.mapParamsToId("explain"));
+        wikiCollect.setUserId(userId);
+
+        try {
+            Integer succ = wikiCollectMapper.insertSelective(wikiCollect);
+            if (succ == 1) {
+                return Resp.RespSucc();
+            } else {
+                return Resp.RespServerFail("收藏失败");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            return Resp.RespServerFail(e.getMessage());
+        }
     }
 
     // 搜索词条(留)

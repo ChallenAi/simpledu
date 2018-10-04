@@ -2,6 +2,7 @@ package com.fengyiai.simpledu.controller;
 
 import com.fengyiai.simpledu.mapper.UserMapper;
 import com.fengyiai.simpledu.model.User;
+import com.fengyiai.simpledu.util.Resp;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,12 +22,9 @@ public class UserController {
 
     // 根据id获取用户信息
     @RequestMapping(value = "/oapi/user", produces="application/json;charset=UTF-8")
-    public Map<String, Object> getUserInfo(@RequestParam String userId) {
+    public String getUserInfo(@RequestParam String userId) {
         User data = userMapper.selectByPrimaryKey(Long.valueOf(userId));
-        Map<String, Object> resp = new HashMap<>();
-        resp.put("code", HttpStatus.OK);
-        resp.put("data", data);
-        return resp;
+        return Resp.RespData(data);
     }
 
     // 关注用户(留)
