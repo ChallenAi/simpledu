@@ -9,8 +9,6 @@ public class Review {
 
     private String content;
 
-    private Long sessionId;
-
     private Date gmtCreate;
 
     private Boolean isDelete;
@@ -19,9 +17,11 @@ public class Review {
 
     private Long bad;
 
-    private Short type;
+    private Long typeTypeId;
 
-    private String resourceId;
+    private Long resourceId;
+
+    private Long toUserId;
 
     public Long getReviewId() {
         return reviewId;
@@ -45,14 +45,6 @@ public class Review {
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
-    }
-
-    public Long getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(Long sessionId) {
-        this.sessionId = sessionId;
     }
 
     public Date getGmtCreate() {
@@ -87,19 +79,27 @@ public class Review {
         this.bad = bad;
     }
 
-    public Short getType() {
-        return type;
+    public Long getTypeTypeId() {
+        return typeTypeId;
     }
 
-    public void setType(Short type) {
-        this.type = type;
+    public void setTypeTypeId(Long typeTypeId) {
+        this.typeTypeId = typeTypeId;
     }
 
-    public String getResourceId() {
+    public Long getResourceId() {
         return resourceId;
     }
 
-    public void setResourceId(String resourceId) {
-        this.resourceId = resourceId == null ? null : resourceId.trim();
+    public void setResourceId(Long resourceId) {
+        this.resourceId = resourceId;
+    }
+
+    public Long getToUserId() {
+        return toUserId;
+    }
+
+    public void setToUserId(Long toUserId) {
+        this.toUserId = toUserId;
     }
 }

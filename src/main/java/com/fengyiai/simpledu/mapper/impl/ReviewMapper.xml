@@ -5,17 +5,17 @@
     <id column="review_id" jdbcType="BIGINT" property="reviewId" />
     <result column="creater_id" jdbcType="BIGINT" property="createrId" />
     <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="session_id" jdbcType="BIGINT" property="sessionId" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="is_delete" jdbcType="BIT" property="isDelete" />
     <result column="good" jdbcType="BIGINT" property="good" />
     <result column="bad" jdbcType="BIGINT" property="bad" />
-    <result column="type" jdbcType="SMALLINT" property="type" />
-    <result column="resource_id" jdbcType="VARCHAR" property="resourceId" />
+    <result column="type_type_id" jdbcType="BIGINT" property="typeTypeId" />
+    <result column="resource_id" jdbcType="BIGINT" property="resourceId" />
+    <result column="to_user_id" jdbcType="BIGINT" property="toUserId" />
   </resultMap>
   <sql id="Base_Column_List">
-    review_id, creater_id, content, session_id, gmt_create, is_delete, good, bad, type, 
-    resource_id
+    review_id, creater_id, content, gmt_create, is_delete, good, bad, type_type_id, resource_id, 
+    to_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -29,13 +29,13 @@
   </delete>
   <insert id="insert" parameterType="com.fengyiai.simpledu.model.Review">
     insert into review (review_id, creater_id, content, 
-      session_id, gmt_create, is_delete, 
-      good, bad, type, resource_id
-      )
+      gmt_create, is_delete, good, 
+      bad, type_type_id, resource_id, 
+      to_user_id)
     values (#{reviewId,jdbcType=BIGINT}, #{createrId,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR}, 
-      #{sessionId,jdbcType=BIGINT}, #{gmtCreate,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=BIT}, 
-      #{good,jdbcType=BIGINT}, #{bad,jdbcType=BIGINT}, #{type,jdbcType=SMALLINT}, #{resourceId,jdbcType=VARCHAR}
-      )
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=BIT}, #{good,jdbcType=BIGINT}, 
+      #{bad,jdbcType=BIGINT}, #{typeTypeId,jdbcType=BIGINT}, #{resourceId,jdbcType=BIGINT}, 
+      #{toUserId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.fengyiai.simpledu.model.Review">
     insert into review
@@ -49,9 +49,6 @@
       <if test="content != null">
         content,
       </if>
-      <if test="sessionId != null">
-        session_id,
-      </if>
       <if test="gmtCreate != null">
         gmt_create,
       </if>
@@ -64,11 +61,14 @@
       <if test="bad != null">
         bad,
       </if>
-      <if test="type != null">
-        type,
+      <if test="typeTypeId != null">
+        type_type_id,
       </if>
       <if test="resourceId != null">
         resource_id,
+      </if>
+      <if test="toUserId != null">
+        to_user_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -80,9 +80,6 @@
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="sessionId != null">
-        #{sessionId,jdbcType=BIGINT},
       </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
@@ -96,11 +93,14 @@
       <if test="bad != null">
         #{bad,jdbcType=BIGINT},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=SMALLINT},
+      <if test="typeTypeId != null">
+        #{typeTypeId,jdbcType=BIGINT},
       </if>
       <if test="resourceId != null">
-        #{resourceId,jdbcType=VARCHAR},
+        #{resourceId,jdbcType=BIGINT},
+      </if>
+      <if test="toUserId != null">
+        #{toUserId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -112,9 +112,6 @@
       </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="sessionId != null">
-        session_id = #{sessionId,jdbcType=BIGINT},
       </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
@@ -128,11 +125,14 @@
       <if test="bad != null">
         bad = #{bad,jdbcType=BIGINT},
       </if>
-      <if test="type != null">
-        type = #{type,jdbcType=SMALLINT},
+      <if test="typeTypeId != null">
+        type_type_id = #{typeTypeId,jdbcType=BIGINT},
       </if>
       <if test="resourceId != null">
-        resource_id = #{resourceId,jdbcType=VARCHAR},
+        resource_id = #{resourceId,jdbcType=BIGINT},
+      </if>
+      <if test="toUserId != null">
+        to_user_id = #{toUserId,jdbcType=BIGINT},
       </if>
     </set>
     where review_id = #{reviewId,jdbcType=BIGINT}
@@ -141,13 +141,13 @@
     update review
     set creater_id = #{createrId,jdbcType=BIGINT},
       content = #{content,jdbcType=VARCHAR},
-      session_id = #{sessionId,jdbcType=BIGINT},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       is_delete = #{isDelete,jdbcType=BIT},
       good = #{good,jdbcType=BIGINT},
       bad = #{bad,jdbcType=BIGINT},
-      type = #{type,jdbcType=SMALLINT},
-      resource_id = #{resourceId,jdbcType=VARCHAR}
+      type_type_id = #{typeTypeId,jdbcType=BIGINT},
+      resource_id = #{resourceId,jdbcType=BIGINT},
+      to_user_id = #{toUserId,jdbcType=BIGINT}
     where review_id = #{reviewId,jdbcType=BIGINT}
   </update>
 </mapper>
