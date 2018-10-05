@@ -9,13 +9,13 @@
     <result column="is_delete" jdbcType="BIT" property="isDelete" />
     <result column="good" jdbcType="BIGINT" property="good" />
     <result column="bad" jdbcType="BIGINT" property="bad" />
-    <result column="type_type_id" jdbcType="BIGINT" property="typeTypeId" />
+    <result column="resource_type_id" jdbcType="BIGINT" property="resourceTypeId" />
     <result column="resource_id" jdbcType="BIGINT" property="resourceId" />
     <result column="to_user_id" jdbcType="BIGINT" property="toUserId" />
   </resultMap>
   <sql id="Base_Column_List">
-    review_id, creater_id, content, gmt_create, is_delete, good, bad, type_type_id, resource_id, 
-    to_user_id
+    review_id, creater_id, content, gmt_create, is_delete, good, bad, resource_type_id, 
+    resource_id, to_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -30,11 +30,11 @@
   <insert id="insert" parameterType="com.fengyiai.simpledu.model.Review">
     insert into review (review_id, creater_id, content, 
       gmt_create, is_delete, good, 
-      bad, type_type_id, resource_id, 
+      bad, resource_type_id, resource_id, 
       to_user_id)
     values (#{reviewId,jdbcType=BIGINT}, #{createrId,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR}, 
       #{gmtCreate,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=BIT}, #{good,jdbcType=BIGINT}, 
-      #{bad,jdbcType=BIGINT}, #{typeTypeId,jdbcType=BIGINT}, #{resourceId,jdbcType=BIGINT}, 
+      #{bad,jdbcType=BIGINT}, #{resourceTypeId,jdbcType=BIGINT}, #{resourceId,jdbcType=BIGINT}, 
       #{toUserId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.fengyiai.simpledu.model.Review">
@@ -61,8 +61,8 @@
       <if test="bad != null">
         bad,
       </if>
-      <if test="typeTypeId != null">
-        type_type_id,
+      <if test="resourceTypeId != null">
+        resource_type_id,
       </if>
       <if test="resourceId != null">
         resource_id,
@@ -93,8 +93,8 @@
       <if test="bad != null">
         #{bad,jdbcType=BIGINT},
       </if>
-      <if test="typeTypeId != null">
-        #{typeTypeId,jdbcType=BIGINT},
+      <if test="resourceTypeId != null">
+        #{resourceTypeId,jdbcType=BIGINT},
       </if>
       <if test="resourceId != null">
         #{resourceId,jdbcType=BIGINT},
@@ -125,8 +125,8 @@
       <if test="bad != null">
         bad = #{bad,jdbcType=BIGINT},
       </if>
-      <if test="typeTypeId != null">
-        type_type_id = #{typeTypeId,jdbcType=BIGINT},
+      <if test="resourceTypeId != null">
+        resource_type_id = #{resourceTypeId,jdbcType=BIGINT},
       </if>
       <if test="resourceId != null">
         resource_id = #{resourceId,jdbcType=BIGINT},
@@ -145,9 +145,17 @@
       is_delete = #{isDelete,jdbcType=BIT},
       good = #{good,jdbcType=BIGINT},
       bad = #{bad,jdbcType=BIGINT},
-      type_type_id = #{typeTypeId,jdbcType=BIGINT},
+      resource_type_id = #{resourceTypeId,jdbcType=BIGINT},
       resource_id = #{resourceId,jdbcType=BIGINT},
       to_user_id = #{toUserId,jdbcType=BIGINT}
     where review_id = #{reviewId,jdbcType=BIGINT}
   </update>
+  <select id="listReviewByResourceTypeIdAndId" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from review
+    where is_delete = false
+    and resource_type_id = #{resourceTypeId}
+    and resource_id = #{resourceId}
+  </select>
 </mapper>

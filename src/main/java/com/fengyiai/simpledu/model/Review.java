@@ -17,7 +17,7 @@ public class Review {
 
     private Long bad;
 
-    private Long typeTypeId;
+    private Long resourceTypeId;
 
     private Long resourceId;
 
@@ -79,12 +79,12 @@ public class Review {
         this.bad = bad;
     }
 
-    public Long getTypeTypeId() {
-        return typeTypeId;
+    public Long getResourceTypeId() {
+        return resourceTypeId;
     }
 
-    public void setTypeTypeId(Long typeTypeId) {
-        this.typeTypeId = typeTypeId;
+    public void setResourceTypeId(Long resourceTypeId) {
+        this.resourceTypeId = resourceTypeId;
     }
 
     public Long getResourceId() {

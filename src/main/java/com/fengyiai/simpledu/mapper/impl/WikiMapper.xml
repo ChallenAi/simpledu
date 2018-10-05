@@ -203,7 +203,7 @@
     where name = #{keyword}
     limit 1
   </select>
-  <select id="selectWikisLikeName" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectWikisLikeName" parameterType="java.util.Map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from wiki

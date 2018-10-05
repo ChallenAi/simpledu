@@ -6,15 +6,12 @@ import com.fengyiai.simpledu.requestParams.WikiParams.*;
 import com.fengyiai.simpledu.util.Constants;
 import com.fengyiai.simpledu.util.Resp;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import javax.validation.Valid;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 public class WikiController {
@@ -182,7 +179,7 @@ public class WikiController {
 
         final String type = p.getType();
 
-        if (type.equals("action_up") && type.equals("action_down")) {
+        if (!type.equals("action_up") && !type.equals("action_down")) {
             return Resp.RespReqFail("参数错误");
         }
 
@@ -347,16 +344,10 @@ public class WikiController {
 
     // 获取解释列表(点击加载更多)
     @RequestMapping(value = "/oapi/explain/list", produces="application/json;charset=UTF-8")
-    public HashMap<String, Object> getExplains() {
+    public String getExplains() {
         // @RequestParam String pageSize, String pageNumber
 //        List<Map> data = explainMapper.findExplainsByWikiId(1);
-
-//        System.out.println(data);
-        HashMap<String, Object> resp = new HashMap<>();
-        resp.put("code", HttpStatus.OK);
-//        resp.put("data", data);
-        System.out.println(resp);
-        return resp;
+        return Resp.RespSucc();
     }
 
     // 获取问题列表(点击加载更多)
