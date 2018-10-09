@@ -27,6 +27,8 @@ public class Explain {
 
     private Long review;
 
+    private String username;
+
     public Long getExplainId() {
         return explainId;
     }
@@ -121,5 +123,13 @@ public class Explain {
 
     public void setReview(Long review) {
         this.review = review;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

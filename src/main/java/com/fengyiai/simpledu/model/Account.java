@@ -11,6 +11,8 @@ public class Account {
 
     private String wxId;
 
+    private String username;
+
     public Long getUserId() {
         return userId;
     }
@@ -41,5 +43,13 @@ public class Account {
 
     public void setWxId(String wxId) {
         this.wxId = wxId == null ? null : wxId.trim();
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

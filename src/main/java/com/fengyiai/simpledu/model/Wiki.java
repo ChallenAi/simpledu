@@ -31,6 +31,8 @@ public class Wiki {
 
     private String relativeArticleIds;
 
+    private String username;
+
     public Long getWikiId() {
         return wikiId;
     }
@@ -141,5 +143,13 @@ public class Wiki {
 
     public void setRelativeArticleIds(String relativeArticleIds) {
         this.relativeArticleIds = relativeArticleIds == null ? null : relativeArticleIds.trim();
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

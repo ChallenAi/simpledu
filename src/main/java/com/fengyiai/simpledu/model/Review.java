@@ -23,6 +23,10 @@ public class Review {
 
     private Long toUserId;
 
+    private String username;
+
+    private String toUsername;
+
     public Long getReviewId() {
         return reviewId;
     }
@@ -101,5 +105,21 @@ public class Review {
 
     public void setToUserId(Long toUserId) {
         this.toUserId = toUserId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getToUsername() {
+        return toUsername;
+    }
+
+    public void setToUsername(String toUsername) {
+        this.toUsername = toUsername;
     }
 }

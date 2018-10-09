@@ -140,11 +140,14 @@
 
   <select id="selectByQuestionIds" parameterType="java.util.List" resultMap="BaseResultMap">
     select
-    <include refid="Base_Column_List" />
-    from answer
+    a.*,
+    u.name as username
+    from answer a
+    left join userinfo u
+    on a.creater_id = u.user_id
     <where>
       <if test="list != null and list.size()>0">
-        AND question_id IN
+        AND a.question_id IN
         <foreach item="item" index="index" collection="list" open="("  close=")" separator=",">
           #{item}
         </foreach>

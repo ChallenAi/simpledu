@@ -152,10 +152,13 @@
   </update>
   <select id="listReviewByResourceTypeIdAndId" parameterType="java.util.Map" resultMap="BaseResultMap">
     select
-    <include refid="Base_Column_List" />
-    from review
-    where is_delete = false
-    and resource_type_id = #{resourceTypeId}
-    and resource_id = #{resourceId}
+    r.*,
+    u.name as username
+    from review r
+    left join userinfo u
+    on r.creater_id = u.user_id
+    where r.is_delete = false
+    and r.resource_type_id = #{resourceTypeId}
+    and r.resource_id = #{resourceId}
   </select>
 </mapper>

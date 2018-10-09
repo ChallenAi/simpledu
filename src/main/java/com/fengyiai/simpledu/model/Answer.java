@@ -22,6 +22,8 @@ public class Answer {
 
     private Long review;
 
+    private String username;
+
     public Long getAnswerId() {
         return answerId;
     }
@@ -92,5 +94,13 @@ public class Answer {
 
     public void setReview(Long review) {
         this.review = review;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

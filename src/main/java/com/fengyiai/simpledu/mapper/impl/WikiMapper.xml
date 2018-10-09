@@ -198,9 +198,12 @@
   </update>
   <select id="selectByWikiName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
-    <include refid="Base_Column_List" />
+    wiki.*,
+    u.name as username
     from wiki
-    where name = #{keyword}
+    left join userinfo u
+    on u.user_id = wiki.creater_id
+    where wiki.name = #{keyword}
     limit 1
   </select>
   <select id="selectWikisLikeName" parameterType="java.util.Map" resultMap="BaseResultMap">

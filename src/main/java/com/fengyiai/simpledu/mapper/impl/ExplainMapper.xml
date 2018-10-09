@@ -176,9 +176,12 @@
   </update>
   <select id="selectByWikiId" parameterType="Map" resultMap="BaseResultMap">
     select
-    <include refid="Base_Column_List" />
-    from explain
-    where wiki_id = #{wikiId,jdbcType=BIGINT}
+    e.*,
+    u.name as username
+    from explain e
+    left join userinfo u
+    on e.creater_id = u.user_id
+    where e.wiki_id = #{wikiId,jdbcType=BIGINT}
     limit #{limit}
     offset #{offset}
   </select>

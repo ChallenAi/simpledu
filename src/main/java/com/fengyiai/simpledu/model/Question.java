@@ -15,6 +15,8 @@ public class Question {
 
     private Long wikiId;
 
+    private String username;
+
     public Long getQuestionId() {
         return questionId;
     }
@@ -61,5 +63,13 @@ public class Question {
 
     public void setWikiId(Long wikiId) {
         this.wikiId = wikiId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
