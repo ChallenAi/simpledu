@@ -17,6 +17,16 @@ public class Question {
 
     private String username;
 
+    private Iterable<Answer> answers;
+
+    public Iterable<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(Iterable<Answer> answers) {
+        this.answers = answers;
+    }
+
     public Long getQuestionId() {
         return questionId;
     }

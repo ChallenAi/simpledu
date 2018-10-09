@@ -57,8 +57,21 @@ public class CommonController {
                             questionIds.add(i.getQuestionId());
                         });
                         List<Answer> answers = wikiService.getAnswerListByQuestionIdList(questionIds);
+                        HashMap<Long, LinkedList> idIndexMapper = new HashMap<>();
+                        answers.forEach((Answer answer) -> {
+                            if (idIndexMapper.get(answer.getQuestionId()) != null) {
+                                idIndexMapper.get(answer.getQuestionId()).add(answer);
+                            } else {
+//                                LinkedList<Answer> temp = new LinkedList<>();
+//                                temp.add(answer);
+                                idIndexMapper.put(answer.getQuestionId(), new LinkedList<Answer>() {{ add(answer); }});
+                            }
+                        });
+                        questions.forEach((Question q) -> {
+                            q.setAnswers(idIndexMapper.get(q.getQuestionId()));
+                        });
                         data.put("questions", questions);
-                        data.put("answers", answers);
+//                        data.put("answers", answers);
                     } catch (Exception e) {
                         data.put("error", true);
                         data.put("msg", e.getMessage());
