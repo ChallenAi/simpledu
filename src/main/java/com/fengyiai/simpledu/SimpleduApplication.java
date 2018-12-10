@@ -5,7 +5,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-// 配置mapper接口位置
 @MapperScan("com.fengyiai.simpledu.mapper")
 public class SimpleduApplication {
 

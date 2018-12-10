@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengyiai.simpledu.mapper.WikiMapper">
+  <resultMap id="BaseResultMap" type="com.fengyiai.simpledu.model.Wiki">
+    <id column="wiki_id" jdbcType="BIGINT" property="wikiId" />
+    <result column="creater_id" jdbcType="BIGINT" property="createrId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="tree_code" jdbcType="VARCHAR" property="treeCode" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="alias" jdbcType="VARCHAR" property="alias" />
+    <result column="english_name" jdbcType="VARCHAR" property="englishName" />
+    <result column="view" jdbcType="BIGINT" property="view" />
+    <result column="finish_ratio" jdbcType="INTEGER" property="finishRatio" />
+    <result column="relative_wiki_ids" jdbcType="VARCHAR" property="relativeWikiIds" />
+    <result column="relative_article_ids" jdbcType="VARCHAR" property="relativeArticleIds" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    wiki_id, creater_id, name, parent_id, tree_code, gmt_create, gmt_modified, description, 
+    alias, english_name, view, finish_ratio, relative_wiki_ids, relative_article_ids
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wiki
+    where wiki_id = #{wikiId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from wiki
+    where wiki_id = #{wikiId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.fengyiai.simpledu.model.Wiki">
+    insert into wiki (wiki_id, creater_id, name,
+      parent_id, tree_code, gmt_create, 
+      gmt_modified, description, alias, 
+      english_name, view, finish_ratio, 
+      relative_wiki_ids, relative_article_ids)
+    values (#{wikiId,jdbcType=BIGINT}, #{createrId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
+      #{parentId,jdbcType=BIGINT}, #{treeCode,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModified,jdbcType=TIMESTAMP}, #{description,jdbcType=VARCHAR}, #{alias,jdbcType=VARCHAR}, 
+      #{englishName,jdbcType=VARCHAR}, #{view,jdbcType=BIGINT}, #{finishRatio,jdbcType=INTEGER}, 
+      #{relativeWikiIds,jdbcType=VARCHAR}, #{relativeArticleIds,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fengyiai.simpledu.model.Wiki">
+    insert into wiki
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="wikiId != null">
+        wiki_id,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="treeCode != null">
+        tree_code,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="alias != null">
+        alias,
+      </if>
+      <if test="englishName != null">
+        english_name,
+      </if>
+      <if test="view != null">
+        view,
+      </if>
+      <if test="finishRatio != null">
+        finish_ratio,
+      </if>
+      <if test="relativeWikiIds != null">
+        relative_wiki_ids,
+      </if>
+      <if test="relativeArticleIds != null">
+        relative_article_ids,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="wikiId != null">
+        #{wikiId,jdbcType=BIGINT},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="treeCode != null">
+        #{treeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="alias != null">
+        #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="englishName != null">
+        #{englishName,jdbcType=VARCHAR},
+      </if>
+      <if test="view != null">
+        #{view,jdbcType=BIGINT},
+      </if>
+      <if test="finishRatio != null">
+        #{finishRatio,jdbcType=INTEGER},
+      </if>
+      <if test="relativeWikiIds != null">
+        #{relativeWikiIds,jdbcType=VARCHAR},
+      </if>
+      <if test="relativeArticleIds != null">
+        #{relativeArticleIds,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fengyiai.simpledu.model.Wiki">
+    update wiki
+    <set>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="treeCode != null">
+        tree_code = #{treeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="alias != null">
+        alias = #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="englishName != null">
+        english_name = #{englishName,jdbcType=VARCHAR},
+      </if>
+      <if test="view != null">
+        view = #{view,jdbcType=BIGINT},
+      </if>
+      <if test="finishRatio != null">
+        finish_ratio = #{finishRatio,jdbcType=INTEGER},
+      </if>
+      <if test="relativeWikiIds != null">
+        relative_wiki_ids = #{relativeWikiIds,jdbcType=VARCHAR},
+      </if>
+      <if test="relativeArticleIds != null">
+        relative_article_ids = #{relativeArticleIds,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where wiki_id = #{wikiId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fengyiai.simpledu.model.Wiki">
+    update wiki
+    set creater_id = #{createrId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      tree_code = #{treeCode,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      description = #{description,jdbcType=VARCHAR},
+      alias = #{alias,jdbcType=VARCHAR},
+      english_name = #{englishName,jdbcType=VARCHAR},
+      view = #{view,jdbcType=BIGINT},
+      finish_ratio = #{finishRatio,jdbcType=INTEGER},
+      relative_wiki_ids = #{relativeWikiIds,jdbcType=VARCHAR},
+      relative_article_ids = #{relativeArticleIds,jdbcType=VARCHAR}
+    where wiki_id = #{wikiId,jdbcType=BIGINT}
+  </update>
+  <select id="selectByWikiName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    wiki.*,
+    u.name as username
+    from wiki
+    left join userinfo u
+    on u.user_id = wiki.creater_id
+    where wiki.name = #{keyword}
+    limit 1
+  </select>
+  <select id="selectWikisLikeName" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wiki
+    where name like concat('%',#{keyword},'%')
+  </select>
+</mapper>
