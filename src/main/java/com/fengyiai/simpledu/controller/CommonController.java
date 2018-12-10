@@ -8,6 +8,7 @@ import com.fengyiai.simpledu.model.Wiki;
 import com.fengyiai.simpledu.service.WikiService;
 import com.fengyiai.simpledu.util.Resp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,9 @@ public class CommonController {
     @Autowired
     private WikiService wikiService;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @RequestMapping(value = "/ping", produces="application/json;charset=UTF-8")
     public String pong() {
         return Resp.RespData("pong");
@@ -37,6 +41,10 @@ public class CommonController {
         // 如果是由匹配到的wiki(isFind==true),直接用wikiId并发取解释/问题和回答；await都完成(用latch)并整合结果返回resu
         // 如果是wikis,即find是false, 直接返回wikis列表，用于展示搜索结果
         Map<String, Object> wikiResu = wikiService.searchWikiOrWikisByKeyword(keyword);
+
+//        redisTemplate.opsForHash().put("user_collect", "user_id_213", "ok");
+        // explainId 13232的解释，被212人收藏
+        redisTemplate.opsForHash().put("explain_collect", "13232", 212);
 
         if ((Boolean) wikiResu.get("isFind")) {
             final Wiki wiki = (Wiki) ((Map) wikiResu.get("data")).get("wiki");
