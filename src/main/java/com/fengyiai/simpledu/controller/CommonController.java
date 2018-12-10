@@ -37,9 +37,6 @@ public class CommonController {
     public String searchResources(@RequestParam String keyword) {
         String resp;
 
-        // 返回值{find; wiki或wikis}
-        // 如果是由匹配到的wiki(isFind==true),直接用wikiId并发取解释/问题和回答；await都完成(用latch)并整合结果返回resu
-        // 如果是wikis,即find是false, 直接返回wikis列表，用于展示搜索结果
         Map<String, Object> wikiResu = wikiService.searchWikiOrWikisByKeyword(keyword);
 
 //        redisTemplate.opsForHash().put("user_collect", "user_id_213", "ok");
@@ -59,7 +56,6 @@ public class CommonController {
                 public void run() {
                     try {
                         List<Question> questions = wikiService.getQuestionListByWikiId(wiki.getWikiId(), 3, 0);
-                        // 拉取所有回答，并拼接回答
                         List<Long> questionIds = new ArrayList<>();
                         questions.forEach(i -> {
                             questionIds.add(i.getQuestionId());

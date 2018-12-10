@@ -10,7 +10,6 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
-// 全局异常捕捉，不能捕捉拦截器的异常， 千万不要extends默认的Handler类
 @ControllerAdvice
 public class CtxExceptionHandler {
 
